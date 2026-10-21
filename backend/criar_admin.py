@@ -3,7 +3,6 @@
 # Descrição: cria um usuário admin sem expor senha no código.
 # Como rodar: python criar_admin.py (com o ambiente virtual ativo).
 # ============================================================
-import getpass
 import bcrypt
 from database import obter_conexao
 
@@ -11,8 +10,8 @@ from database import obter_conexao
 def criar_administrador():
     nome = input("Nome do administrador: ").strip()
     email = input("E-mail do administrador: ").strip().lower()
-    senha = getpass.getpass("Senha (mínimo 10 caracteres): ")
-    confirmar = getpass.getpass("Repita a senha: ")
+    senha = input("Senha (mínimo 10 caracteres): ")
+    confirmar = input("Repita a senha: ")
     if not nome or not email or "@" not in email:
         print("Informe um nome e um e-mail válido.")
         return

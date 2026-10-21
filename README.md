@@ -2,6 +2,36 @@
 
 Sistema web didático para gerenciar clientes, tatuadores, senioridades, estilos, agendamentos e usuários. Tecnologias: MySQL/XAMPP, Python/FastAPI, HTML, Bootstrap e JavaScript puro.
 
+## Guia rápido: como entrar no sistema (Windows)
+
+Siga esta ordem na primeira vez. **O login só funciona depois de criar a conta de administrador**; não existe usuário/senha padrão no projeto.
+
+1. **Banco de dados:** abra o XAMPP e clique em Start ao lado de MySQL. Abra `http://localhost/phpmyadmin`, entre em Importar e selecione `banco/estudio_tatuagem.sql` deste projeto.
+2. **Configurar backend:** abra o terminal na pasta `estudio_tatuagem-main\backend` (a pasta que contém `main.py`) e execute:
+
+   ```powershell
+   python -m venv .venv
+   .venv\Scripts\Activate.ps1
+   pip install -r requirements.txt
+   Copy-Item .env.example .env
+   ```
+
+   Se o PowerShell bloquear a ativação, use o Prompt de Comando (CMD) e execute `.venv\Scripts\activate.bat`, ou continue sem ativar usando `.venv\Scripts\python.exe -m pip install -r requirements.txt`.
+
+3. **Chave secreta:** gere uma chave no terminal com `python -c "import secrets; print(secrets.token_urlsafe(48))"`. Abra `backend/.env` e substitua o valor de `SECRET_KEY` pela chave gerada. No XAMPP padrão, deixe `DB_USER=root`, `DB_PASSWORD=` vazio; se você configurou senha no MySQL, preencha-a.
+4. **Criar a conta de administrador:** ainda na pasta `backend`, com o ambiente virtual ativado, execute `python criar_admin.py`. Digite nome, e-mail e uma senha com pelo menos 10 caracteres duas vezes. A senha não aparece enquanto você digita; isso é normal.
+5. **Ligar a API:** execute `uvicorn main:app --reload` no terminal da pasta `backend`. Deixe esse terminal aberto. Confira `http://localhost:8000/health`; deve aparecer `{"status":"ok","aplicacao":"Estúdio de Tatuagem"}`.
+6. **Ligar o site:** abra um segundo terminal na pasta `estudio_tatuagem-main\frontend` e execute `python -m http.server 5500`. Deixe esse terminal aberto.
+7. **Entrar:** abra `http://localhost:5500/login.html`, use o e-mail e a senha criados no passo 4 e clique em **Entrar**. Para cadastrar funcionários ou outros administradores, entre primeiro como administrador e acesse `http://localhost:5500/cadastro.html`.
+
+### Se não conseguir entrar
+
+- **“E-mail ou senha inválidos”**: confirme que criou o administrador no passo 4 e use exatamente o mesmo e-mail/senha.
+- **Erro de conexão com a API**: confirme que o terminal do Uvicorn continua aberto e que `/health` abre.
+- **Erro de conexão com MySQL**: confira se o MySQL está iniciado no XAMPP e se os dados de `backend/.env` correspondem aos do seu MySQL.
+- **E-mail já cadastrado** ao criar admin: essa conta já existe; tente entrar com ela. Não apague o banco só para resolver o login.
+- **Acesso negado ao cadastro**: a página `cadastro.html` é somente para administradores. Primeiro entre com a conta admin.
+
 ## Requisitos
 - Python 3.10 ou mais recente
 - XAMPP com MySQL ativo (ou outro MySQL compatível)
