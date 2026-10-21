@@ -1,0 +1,9 @@
+# Segredos e ambiente local
+backend/.env
+backend/.venv/
+.venv/
+__pycache__/
+*.py[cod]
+# Arquivos enviados por usuários (mantenha a pasta, não os uploads locais)
+backend/uploads/*
+!backend/uploads/.gitkeep
